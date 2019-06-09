@@ -37,9 +37,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        Project::create(request(['title', 'descriptions']));
+        Project::create(request()->validate([
+            'title' => 'required|min:3',
+            'descriptions' => 'required|min:3'
+        ]));
 
-        return redirect()->route('projects.index', ['status' => 'success']);
+        return redirect()->route('projects.index');
     }
 
     /**
@@ -73,7 +76,10 @@ class ProjectController extends Controller
      */
     public function update(Project $project)
     {
-        $project->update(request(['title', 'descriptions']));
+        $project->update(request()->validate([
+            'title' => 'required|min:3',
+            'descriptions' => 'required|min:3'
+        ]));
 
         return redirect()->route('projects.index');
     }
